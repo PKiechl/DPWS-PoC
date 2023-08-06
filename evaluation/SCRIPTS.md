@@ -3,7 +3,7 @@ These scripts were used during the development for various evaluations
 > 1. `brew install python@3.11`
 > 2. `pip3 install virtualenv`
 > 
-> Once installed:
+> Once installed make sure you are in the `evaluation` directory, then:
 > 1. `python3 -m virtualenv venv`
 > 2. `source venv/bin/activate`
 > 3. `pip3 install -r requirements.txt`
