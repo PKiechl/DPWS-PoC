@@ -34,8 +34,8 @@ At this point you have a functioning NS-3 installation and it is time to install
 > The following files have to be transferred to your NS-3 installation:
 > - Transfer the contents of `contrib` into the `contrib` folder of your NS-3 installation.
 > - Copy the contents of the `scratch` directory to the `scratch` directory of your NS-3 installation
-> - Copy the contents of the `socket memory patch/src/internet/model` directory to the `src/internet/model` directory of your NS-3 installation and overwrite the files present there. Refer to [Patches.md](PATCHES.md) for more information
-> - Copy the contents of the `overwrites/src/internet/model` directory to the `src/internet/model` directory of your NS-3 installation and overwrite the file present there. Refer to [Patches.md](PATCHES.md) for more information
+> - Copy the contents of the `socket memory patch/src/internet/model` directory to the `src/internet/model` directory of your NS-3 installation and overwrite the files present there. Refer to [Patches.md](simulator/PATCHES.md) for more information
+> - Copy the contents of the `overwrites/src/internet/model` directory to the `src/internet/model` directory of your NS-3 installation and overwrite the file present there. Refer to [Patches.md](simulator/PATCHES.md) for more information
 > 
 > As a last step, the build step must be executed again such that the newly transferred
     files take effect: `./ns3 build`
@@ -54,7 +54,7 @@ At this point you have a functioning NS-3 installation and it is time to install
 --printTopology=true`
 > 
 > - the `--command-template` allows for the use of MPI parallelization and specify the number of cores the simulator is allowed to use. In the example above, 4 cores are made available
-> - `--configFile` is used to specify the configuration file and is required. Use the included `sample_config.yaml` or [create your own](CONFIGURATION.md)
+> - `--configFile` is used to specify the configuration file and is required. Use the included `sample_config.yaml` or [create your own](simulator/CONFIGURATION.md)
 > - `--printConfiguration` prints the parsed configuration to the console, including optional parameters you may have not explicitly specified
 > - `--progressLogInterval` is used to control in which interval (in simulation time) progress logs are written to console. By default that happens every 15 seconds within the simulation timeline.
 > - `--printTopology` is used enabled by default. It prints the generated topology as a list of node-pairs that share an edge.
