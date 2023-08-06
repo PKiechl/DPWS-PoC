@@ -21,8 +21,7 @@ This project was developed with version 3.38 of NS-3, your mileage may very when
 > - `brew install open-mpi`
 > 
 > Configure NS-3:
-> 1. `./ns3 configure --enable-mpi --build-profile=optimized`
->    2. you may use a different build profile, such as `debug` if you wish for additional logging output
+> 1. `./ns3 configure --enable-mpi --build-profile=optimized`. You may use a different build profile, such as `debug` if you wish for additional logging output
 > 2. `./ns3 build`
 > 3. (Optional) `./test.py`
 > 
