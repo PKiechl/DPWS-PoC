@@ -1,0 +1,91 @@
+global_settings:
+  capture:
+    pcap_prefix: VAR1
+  attack:
+    burst_duration_s: 30
+    target_switch_duration_s: 0
+    attack_vectors:
+      - type: tcp_syn_flooding
+        data_rate: 1000Kbps
+        source_port: -1
+        destination_port: 8080
+      - type: udp_flooding
+        packet_size: 96
+        data_rate: 1000Kbps
+        destination_port: -1
+      - type: icmp_flooding
+        packet_size: 128
+      - type: udp_flooding
+  scheduling:
+    simulation_duration_s: 240.0
+
+central_network:
+  bandwidth: 500Gbps
+  delay: 1ms
+  nodes:
+    - id: IXP1
+    - id: IXP2
+
+autonomous_systems:
+  - id: AS1
+    network_address: 192.168.1.0
+    bandwidth: 100Gbps
+    delay: 10ms
+    attachment:
+      central_network_attachment_node: IXP1
+      bandwidth: 100Gbps
+      delay: 3ms
+  - id: AS2
+    network_address: 192.173.1.0
+    bandwidth: 100Gbps
+    delay: 5ms
+    attachment:
+      central_network_attachment_node: IXP2
+      bandwidth: 100Gbps
+      delay: 3ms
+  - id: AS3
+    network_address: 192.195.1.0
+    bandwidth: 100Gbps
+    delay: 5ms
+    attachment:
+      central_network_attachment_node: IXP1
+      bandwidth: 100Gbps
+      delay: 3ms
+
+attacker_nodes:
+  - id: AN1
+    data_rate: 2500Kbps
+    owner_as: AS1
+    packet_size: 256
+    source_port: 139
+    destination_port: 777
+  - id: AN2
+    data_rate: 1000Kbps
+    owner_as: AS1
+    packet_size: 36
+    source_port: -1
+    destination_port: 9
+  - id: AN3
+    data_rate: 700Kbps
+    owner_as: AS1
+    packet_size: 128
+    source_port: 185
+    destination_port: 777
+  - id: AN4
+    data_rate: 500Kbps
+    owner_as: AS1
+    packet_size: 48
+    source_port: 487
+    destination_port: -1
+  - id: AN5
+    data_rate: 300Kbps
+    owner_as: AS1
+    packet_size: 96
+    source_port: 139
+    destination_port: 118
+
+target_server_nodes:
+  - id: TN1
+    owner_as: AS2
+  - id: TN2
+    owner_as: AS3

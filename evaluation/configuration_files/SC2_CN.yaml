@@ -1,0 +1,241 @@
+# just UDP flooding and ICMP flooding in terms of vector config, nothing fancy with attackers having different DRs or packet sizes
+
+# Topology such that no attackers or targets are within the same AS. That would be still a valid config, but then you don't
+# get to capture the traffic, between attackers/targets in the same AS, as it never passes through any IXP node interface.
+
+# Topology also puts all targets into the same AS (AS 2), such that the entire attack traffic is visible at one interface,
+# for easy showcasing
+
+global_settings:
+  capture:
+    pcap_prefix: SC2
+  attack:
+    burst_duration_s: 45.0
+    target_switch_duration_s: 15.0
+    attack_vectors:
+      - type: udp_flooding
+        packet_size: 42
+        data_rate: 1.5Mbps
+      - type: icmp_flooding
+        packet_size: 42
+        data_rate: 1.5Mbps
+      - type: tcp_syn_flooding
+        packet_size: 42
+        data_rate: 1.5Mbps
+  scheduling:
+    simulation_duration_s: 600.0
+
+central_network:
+  degree_of_redundancy: 0.5
+  nodes:
+    - id: IXP1
+    - id: IXP2
+    - id: IXP3
+    - id: IXP4
+    - id: IXP5
+    - id: IXP6
+
+autonomous_systems:
+  - id: AS1
+    network_address: 111.111.0.0
+    attachment:
+      central_network_attachment_node: IXP1
+  - id: AS2
+    network_address: 122.122.0.0
+    attachment:
+      central_network_attachment_node: IXP2
+  - id: AS3
+    network_address: 133.133.0.0
+    attachment:
+      central_network_attachment_node: IXP2
+  - id: AS4
+    network_address: 144.144.0.0
+    attachment:
+      central_network_attachment_node: IXP3
+  - id: AS5
+    network_address: 155.155.0.0
+    attachment:
+      central_network_attachment_node: IXP4
+  - id: AS6
+    network_address: 166.166.0.0
+    attachment:
+      central_network_attachment_node: IXP4
+
+attacker_nodes:
+  # AS2 off limits for attackers for what I want to show here (AS contains all targets)
+  - id: AN1
+    owner_as: AS1
+  - id: AN2
+    owner_as: AS1
+  - id: AN3
+    owner_as: AS3
+  - id: AN4
+    owner_as: AS3
+  - id: AN5
+    owner_as: AS4
+  - id: AN6
+    owner_as: AS4
+  - id: AN7
+    owner_as: AS5
+  - id: AN8
+    owner_as: AS5
+  - id: AN9
+    owner_as: AS6
+  - id: AN10
+    owner_as: AS6
+  - id: AN11
+    owner_as: AS1
+  - id: AN12
+    owner_as: AS3
+  - id: AN13
+    owner_as: AS4
+  - id: AN14
+    owner_as: AS5
+  - id: AN15
+    owner_as: AS6
+
+benign_client_nodes:
+  - id: BN1
+    peer: TN1
+    owner_as: AS1
+    max_reading_time: 150
+  - id: BN2
+    peer: NTN1
+    owner_as: AS2
+    max_reading_time: 150
+  - id: BN3
+    peer: TN2
+    owner_as: AS3
+    max_reading_time: 150
+  - id: BN4
+    peer: NTN2
+    owner_as: AS4
+    max_reading_time: 150
+  - id: BN5
+    peer: NTN3
+    owner_as: AS5
+    max_reading_time: 150
+  - id: BN6
+    peer: NTN4
+    owner_as: AS6
+    max_reading_time: 150
+  - id: BN7
+    peer: NTN5
+    owner_as: AS1
+    max_reading_time: 150
+  - id: BN8
+    peer: NTN6
+    owner_as: AS2
+    max_reading_time: 150
+  - id: BN9
+    peer: NTN1
+    owner_as: AS3
+    max_reading_time: 150
+  - id: BN10
+    peer: NTN2
+    owner_as: AS4
+    max_reading_time: 150
+  - id: BN11
+    peer: TN1
+    owner_as: AS1
+    max_reading_time: 150
+  - id: BN12
+    peer: NTN1
+    owner_as: AS2
+    max_reading_time: 150
+  - id: BN13
+    peer: TN2
+    owner_as: AS3
+    max_reading_time: 150
+  - id: BN14
+    peer: NTN2
+    owner_as: AS4
+    max_reading_time: 150
+  - id: BN15
+    peer: NTN3
+    owner_as: AS5
+    max_reading_time: 150
+  - id: BN16
+    peer: NTN4
+    owner_as: AS6
+    max_reading_time: 150
+  - id: BN17
+    peer: NTN5
+    owner_as: AS1
+    max_reading_time: 150
+  - id: BN18
+    peer: NTN6
+    owner_as: AS2
+    max_reading_time: 150
+  - id: BN19
+    peer: NTN1
+    owner_as: AS3
+    max_reading_time: 150
+  - id: BN20
+    peer: NTN2
+    owner_as: AS4
+    max_reading_time: 150
+  - id: BN21
+    peer: TN1
+    owner_as: AS1
+    max_reading_time: 150
+  - id: BN22
+    peer: NTN1
+    owner_as: AS2
+    max_reading_time: 150
+  - id: BN23
+    peer: TN2
+    owner_as: AS3
+    max_reading_time: 150
+  - id: BN24
+    peer: NTN2
+    owner_as: AS4
+    max_reading_time: 150
+  - id: BN25
+    peer: NTN3
+    owner_as: AS5
+    max_reading_time: 150
+  - id: BN26
+    peer: NTN4
+    owner_as: AS6
+    max_reading_time: 150
+  - id: BN27
+    peer: NTN5
+    owner_as: AS1
+    max_reading_time: 150
+  - id: BN28
+    peer: NTN6
+    owner_as: AS2
+    max_reading_time: 150
+  - id: BN29
+    peer: NTN1
+    owner_as: AS3
+    max_reading_time: 150
+  - id: BN30
+    peer: NTN2
+    owner_as: AS4
+    max_reading_time: 150
+
+target_server_nodes:
+  - id: TN1
+    owner_as: AS2
+  - id: TN2
+    owner_as: AS2
+  - id: TN3
+    owner_as: AS2
+
+non_target_server_nodes:
+  - id: NTN1
+    owner_as: AS1
+  - id: NTN2
+    owner_as: AS2
+  - id: NTN3
+    owner_as: AS3
+  - id: NTN4
+    owner_as: AS4
+  - id: NTN5
+    owner_as: AS5
+  - id: NTN6
+    owner_as: AS6
+
+

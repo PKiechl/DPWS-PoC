@@ -1,0 +1,95 @@
+# just UDP flooding and ICMP flooding in terms of vector config, nothing fancy with attackers having different DRs or packet sizes
+
+# Topology such that no attackers or targets are within the same AS. That would be still a valid config, but then you don't
+# get to capture the traffic, between attackers/targets in the same AS, as it never passes through any IXP node interface.
+
+# Topology also puts all targets into the same AS (AS 2), such that the entire attack traffic is visible at one interface,
+# for easy showcasing
+
+global_settings:
+  capture:
+    pcap_prefix: DIST
+  attack:
+    burst_duration_s: 60.0
+    target_switch_duration_s: 0
+    attack_vectors:
+      - type: udp_flooding
+        packet_size: 1024
+        data_rate: 400Kbps
+  scheduling:
+    simulation_duration_s: 600.0
+
+central_network:
+  degree_of_redundancy: 0.2
+  nodes:
+    - id: IXP1
+    - id: IXP2
+    - id: IXP3
+    - id: IXP4
+    - id: IXP5
+    - id: IXP6
+    - id: IXP7
+    - id: IXP8
+
+autonomous_systems:
+  # ASs holding attacker Nodes
+  - id: AS_A1
+    network_address: 111.111.1.0
+    attachment:
+      central_network_attachment_node: IXP1
+  - id: AS_A2
+    network_address: 122.122.1.0
+    attachment:
+      central_network_attachment_node: IXP4
+  - id: AS_A3
+    network_address: 133.133.1.0
+    attachment:
+      central_network_attachment_node: IXP6
+  - id: AS_A4
+    network_address: 144.144.1.0
+    attachment:
+      central_network_attachment_node: IXP3
+  # ASs holding target nodes
+  - id: AS_T1
+    network_address: 155.155.1.0
+    attachment:
+      central_network_attachment_node: IXP7
+  - id: AS_T2
+    network_address: 166.166.1.0
+    attachment:
+      central_network_attachment_node: IXP3
+
+attacker_nodes:
+  - id: AN1
+    owner_as: AS_A1
+  - id: AN2
+    owner_as: AS_A1
+  - id: AN3
+    owner_as: AS_A1
+  - id: AN4
+    owner_as: AS_A1
+  - id: AN5
+    owner_as: AS_A1
+  - id: AN6
+    owner_as: AS_A2
+  - id: AN7
+    owner_as: AS_A2
+  - id: AN8
+    owner_as: AS_A2
+  - id: AN9
+    owner_as: AS_A3
+  - id: AN10
+    owner_as: AS_A3
+  - id: AN11
+    owner_as: AS_A4
+  - id: AN12
+    owner_as: AS_A4
+
+
+target_server_nodes:
+  - id: TN1
+    owner_as: AS_T1
+  - id: TN2
+    owner_as: AS_T2
+
+

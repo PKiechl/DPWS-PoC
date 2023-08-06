@@ -1,0 +1,78 @@
+global_settings:
+  capture:
+    pcap_prefix: VAR2
+  attack:
+    burst_duration_s: 25.0
+    target_switch_duration_s: 5.0
+    attack_vectors:
+      - type: icmp_flooding
+        data_rate: 500Kbps
+      - type: udp_flooding
+        data_rate: 1000Kbps
+        burst_duration_s: 10.0
+        target_switch_duration_s: 20.0
+      - type: icmp_flooding
+        data_rate: 750Kbps
+        burst_duration_s: 15.0
+        target_switch_duration_s: 0
+      - type: udp_flooding
+        data_rate: 1500Kbps
+        burst_duration_s: 15.0
+        target_switch_duration_s: 10
+      - type: icmp_flooding
+        burst_duration_s: 45.0
+        target_switch_duration_s: 15
+        data_rate: 350Kbps
+      - type: udp_flooding
+        data_rate: 2000Kbps
+        burst_duration_s: 12.0
+        target_switch_duration_s: 8
+  scheduling:
+    simulation_duration_s: 180.0
+
+central_network:
+  network_address: 10.1.0.0
+  bandwidth: 500Gbps
+  delay: 1ms
+  degree_of_redundancy: 0.75
+  nodes:
+    - id: IXP1
+    - id: IXP2
+
+autonomous_systems:
+  - id: AS1
+    network_address: 192.168.1.0
+    bandwidth: 100Gbps
+    delay: 10ms
+    attachment:
+      central_network_attachment_node: IXP1
+      bandwidth: 100Gbps
+      delay: 3ms
+  - id: AS2
+    network_address: 192.173.1.0
+    bandwidth: 100Gbps
+    delay: 5ms
+    attachment:
+      central_network_attachment_node: IXP2
+      bandwidth: 100Gbps
+      delay: 3ms
+
+attacker_nodes:
+  - id: AN1
+    owner_as: AS1
+  - id: AN2
+    owner_as: AS1
+  - id: AN3
+    owner_as: AS1
+  - id: AN4
+    owner_as: AS1
+  - id: AN5
+    owner_as: AS1
+
+target_server_nodes:
+  - id: TN1
+    owner_as: AS2
+
+
+
+

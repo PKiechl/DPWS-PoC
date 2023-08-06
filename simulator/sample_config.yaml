@@ -1,0 +1,109 @@
+global_settings:
+  capture:
+    pcap_prefix: SAMPLE
+  attack:
+    burst_duration_s: 60.0
+    target_switch_duration_s: 0
+    attack_vectors:
+      - type: udp_flooding
+        packet_size: 256
+        data_rate: 5Mbps
+      - type: icmp_flooding
+        packet_size: 60
+        data_rate: 5Mbps
+      - type: tcp_syn_flooding
+        data_rate: 5Mbps
+  scheduling:
+    simulation_duration_s: 600.0
+
+central_network:
+  degree_of_redundancy: 0.5
+  nodes:
+    - id: IXP1
+    - id: IXP2
+
+autonomous_systems:
+  - id: AS1
+    network_address: 111.111.0.0
+    attachment:
+      central_network_attachment_node: IXP1
+  - id: AS2
+    network_address: 122.122.0.0
+    attachment:
+      central_network_attachment_node: IXP2
+  - id: AS3
+    network_address: 133.133.0.0
+    attachment:
+      central_network_attachment_node: IXP2
+
+attacker_nodes:
+  - id: AN1
+    owner_as: AS1
+  - id: AN2
+    owner_as: AS1
+  - id: AN3
+    owner_as: AS1
+  - id: AN4
+    owner_as: AS1
+  - id: AN5
+    owner_as: AS1
+
+benign_client_nodes:
+  - id: BN1
+    peer: TN1
+    owner_as: AS1
+    max_reading_time: 150
+  - id: BN2
+    peer: TN2
+    owner_as: AS1
+    max_reading_time: 150
+  - id: BN3
+    peer: NTN3
+    owner_as: AS1
+    max_reading_time: 150
+  - id: BN4
+    peer: NTN1
+    owner_as: AS2
+    max_reading_time: 150
+  - id: BN5
+    peer: NTN2
+    owner_as: AS2
+    max_reading_time: 150
+  - id: BN6
+    peer: NTN4
+    owner_as: AS2
+    max_reading_time: 150
+  - id: BN7
+    peer: NTN1
+    owner_as: AS3
+    max_reading_time: 150
+  - id: BN8
+    peer: NTN2
+    owner_as: AS3
+    max_reading_time: 150
+  - id: BN9
+    peer: TN1
+    owner_as: AS3
+    max_reading_time: 150
+
+
+target_server_nodes:
+  - id: TN1
+    owner_as: AS2
+  - id: TN2
+    owner_as: AS3
+
+
+non_target_server_nodes:
+  - id: NTN1
+    owner_as: AS1
+  - id: NTN2
+    owner_as: AS1
+  - id: NTN3
+    owner_as: AS2
+  - id: NTN4
+    owner_as: AS3
+
+
+
+
